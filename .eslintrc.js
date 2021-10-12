@@ -127,5 +127,11 @@ module.exports = {
       },
     ],
     '@typescript-eslint/no-explicit-any': ['error', { ignoreRestArgs: true }],
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
   },
 };
