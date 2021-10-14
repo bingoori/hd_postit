@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Box, Text, Input, Textarea } from 'theme-ui';
 import { RootState } from '../../store';
-import { modifyBoard } from '../../store/board/board-actions';
+import { modifyBoardAsync } from '../../store/board/board-actions';
 import { Board } from '../../store/board/board-types';
 import {
   addSticky,
@@ -78,7 +78,7 @@ const StickyList = () => {
 
   //상단 보드 제목수정
   const modifyBoardTitle = (boardId?: number, title?: string) => {
-    dispatch(modifyBoard({ id: boardId as number, text: title as string, isToggle: true }));
+    dispatch(modifyBoardAsync.request({ id: boardId as number, text: title as string, isToggle: true }));
     setTitleFlag(false);
   };
 

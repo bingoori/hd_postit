@@ -6,5 +6,6 @@ const rootReducer = combineReducers({
   boardReducer,
   stickyReducer,
 });
-export default rootReducer;
+
 export type RootState = ReturnType<typeof rootReducer>;
+export default rootReducer;

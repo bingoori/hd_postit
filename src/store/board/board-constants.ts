@@ -1,5 +1,10 @@
+export const ADD_BOARD_CALL = 'ADD_BOARD_CALL';
 export const ADD_BOARD = 'ADD_BOARD';
+export const GET_BOARD_CALL = 'GET_BOARD_CALL';
 export const GET_BOARD = 'GET_BOARD';
+export const CHOOSE_BOARD_CALL = 'CHOOSE_BOARD_CALL';
 export const CHOOSE_BOARD = 'CHOOSE_BOARD';
+export const MODIFY_BOARD_CALL = 'MODIFY_BOARD_CALL';
 export const MODIFY_BOARD = 'MODIFY_BOARD';
+export const REMOVE_BOARD_CALL = 'REMOVE_BOARD_CALL';
 export const REMOVE_BOARD = 'REMOVE_BOARD';
