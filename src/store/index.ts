@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import boardReducer from './board/board-store';
-import stickyReducer from './sticky/sticky-store';
+import boardReducer from './board/board-reducers';
+import stickyReducer from './sticky/sticky-reducers';
 
 const rootReducer = combineReducers({
   boardReducer,

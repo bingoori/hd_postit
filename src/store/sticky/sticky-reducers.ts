@@ -1,34 +1,65 @@
 import { getStickyList, setStickyItem, modifyStickyItem, removeStickyItem } from '../../lib/storage';
 import { Sticky } from './sticky-types';
-// Action Type
-const ADD_STICKY = 'sticky/ADD_STICKY' as const;
-const GET_STICKY = 'sticky/GET_STICKY' as const;
-const MODIFY_STICKY_TITLE = 'sticky/MODIFY_STICKY_TITLE' as const;
-const MODIFY_STICKY_CONTENTS = 'sticky/MODIFY_STICKY_CONTENTS' as const;
-const HIDE_STICKY_CONTENTS = 'sticky/HIDE_STICKY_CONTENTS' as const;
-const MOVE_STICKY = 'sticky/MOVE_STICKY' as const;
-const RESIZE_STICKY = 'sticky/RESIZE_STICKY' as const;
-const REMOVE_STICKY = 'sticky/REMOVE_STICKY' as const;
 
-// Action Creators
-export const addSticky = (data: Sticky) => ({ type: ADD_STICKY, payload: data });
-export const getSticky = (id: number) => ({ type: GET_STICKY, payload: id });
-export const modifyStickyTitle = (id: number, text: string) => ({ type: MODIFY_STICKY_TITLE, id, text });
-export const modifyStickyContents = (id: number, text: string) => ({ type: MODIFY_STICKY_CONTENTS, id, text });
-export const hideStickyContents = (id: number) => ({ type: HIDE_STICKY_CONTENTS, id });
-export const moveSticky = (id: number, x: number, y: number) => ({ type: MOVE_STICKY, id, x, y });
-export const resizeSticky = (id: number, width: number, height: number) => ({ type: RESIZE_STICKY, id, width, height });
-export const removeSticky = (id: number) => ({ type: REMOVE_STICKY, id });
+import {
+  ADD_STICKY,
+  GET_STICKY,
+  MODIFY_STICKY_TITLE,
+  MODIFY_STICKY_CONTENTS,
+  HIDE_STICKY_CONTENTS,
+  MOVE_STICKY,
+  RESIZE_STICKY,
+  REMOVE_STICKY,
+} from './sticky-constants';
+
+export interface AddStickyAction {
+  type: typeof ADD_STICKY;
+  data: Sticky;
+}
+export interface GetStickyAction {
+  type: typeof GET_STICKY;
+  id: number;
+}
+export interface ModifyStickyTitleAction {
+  type: typeof MODIFY_STICKY_TITLE;
+  id: number;
+  text: string;
+}
+export interface ModifyStickyContentsAction {
+  type: typeof MODIFY_STICKY_CONTENTS;
+  id: number;
+  text: string;
+}
+export interface HideStickyContentsAction {
+  type: typeof HIDE_STICKY_CONTENTS;
+  id: number;
+}
+export interface MoveStickyAction {
+  type: typeof MOVE_STICKY;
+  id: number;
+  x: number;
+  y: number;
+}
+export interface ResizeStickyAction {
+  type: typeof RESIZE_STICKY;
+  id: number;
+  width: number;
+  height: number;
+}
+export interface RemoveStickyAction {
+  type: typeof REMOVE_STICKY;
+  id: number;
+}
 
 type StickyAction =
-  | ReturnType<typeof addSticky>
-  | ReturnType<typeof getSticky>
-  | ReturnType<typeof modifyStickyTitle>
-  | ReturnType<typeof modifyStickyContents>
-  | ReturnType<typeof hideStickyContents>
-  | ReturnType<typeof moveSticky>
-  | ReturnType<typeof resizeSticky>
-  | ReturnType<typeof removeSticky>;
+  | AddStickyAction
+  | GetStickyAction
+  | ModifyStickyTitleAction
+  | ModifyStickyContentsAction
+  | HideStickyContentsAction
+  | MoveStickyAction
+  | ResizeStickyAction
+  | RemoveStickyAction;
 
 export const initialState: Sticky[] = [];
 
@@ -38,14 +69,14 @@ export default function stickyReducer(state: Sticky[] = initialState, action: St
       if (!state) {
         state = [];
       }
-      action.payload.id = state.length > 0 ? state[state.length - 1].id + 1 : 1;
-      state.push(action.payload);
-      setStickyItem(action.payload);
+      action.data.id = state.length > 0 ? state[state.length - 1].id + 1 : 1;
+      state.push(action.data);
+      setStickyItem(action.data);
       return [...state];
     }
     case GET_STICKY: {
       const stickyList = getStickyList();
-      state = stickyList ? stickyList.filter((current) => current.parentId === action.payload) : [];
+      state = stickyList ? stickyList.filter((current) => current.parentId === action.id) : [];
       return state;
     }
     case MODIFY_STICKY_TITLE: {

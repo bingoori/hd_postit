@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Close, Flex } from 'theme-ui';
 import { RootState } from '../../store';
-import { addBoard, chooseBoard, getBoard, removeBoard } from '../../store/board/board-store';
+import { addBoard, chooseBoard, getBoard, removeBoard } from '../../store/board/board-actions';
 
 const BoardList = () => {
   const dispatch = useDispatch();

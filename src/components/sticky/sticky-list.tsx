@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Box, Text, Input, Textarea } from 'theme-ui';
 import { RootState } from '../../store';
-import { modifyBoard } from '../../store/board/board-store';
+import { modifyBoard } from '../../store/board/board-actions';
 import { Board } from '../../store/board/board-types';
 import {
   addSticky,
@@ -13,11 +13,12 @@ import {
   moveSticky,
   resizeSticky,
   removeSticky,
-} from '../../store/sticky/sticky-store';
+} from '../../store/sticky/sticky-actions';
 import { Sticky } from '../../store/sticky/sticky-types';
 
 let nX = 0;
 let nY = 0;
+let write = false;
 const StickyList = () => {
   const dispatch = useDispatch();
   const boardList = useSelector((state: RootState) => state.boardReducer);
@@ -35,27 +36,36 @@ const StickyList = () => {
     load();
 
     // 새 메모 띄우기(컨트롤 + 알트 + n)
-    function onKeyDown(e: KeyboardEvent) {
-      if (e.ctrlKey && e.altKey && e.code === 'KeyN') {
-        const el = document.querySelector('.palette')!;
-        const newId = dispatch(
-          addSticky({
-            parentId: selectBoard?.id,
-            id: -1,
-            title: 'NEW STICKY',
-            contents: '',
-            x: el.clientHeight / 2,
-            y: el.clientWidth / 2,
-            width: 200,
-            height: 200,
-            isShow: true,
-          }),
-        ).payload.id;
-        setStickyTitleFlag({ id: newId, flag: true });
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.ctrlKey && event.altKey && event.code === 'KeyN') {
+        if (write) {
+          return false;
+        }
+        if (boardList.length > 0) {
+          write = true;
+          const el = document.querySelector('.palette')!;
+          const newId = dispatch(
+            addSticky({
+              parentId: findBoard()?.id,
+              id: -1,
+              title: 'NEW STICKY',
+              contents: '',
+              x: el.clientHeight / 2,
+              y: el.clientWidth / 2,
+              width: 200,
+              height: 200,
+              isShow: true,
+            }),
+          ).data.id;
+          setStickyTitleFlag({ id: newId, flag: true });
+          setTimeout(() => {
+            write = false;
+          }, 500);
+        }
       }
     }
     document.addEventListener('keydown', onKeyDown);
-  }, [boardList]);
+  }, [dispatch, boardList]);
 
   const findBoard = () => boardList.find((current) => current.isToggle);
 
@@ -176,7 +186,7 @@ const StickyList = () => {
                 sx={{
                   m: 1,
                 }}
-                draggable
+                draggable={!stickyTitleFlag.flag}
                 onDragEnd={(event) => dragSticky(event, current.id)}
               >
                 {stickyTitleFlag.flag && stickyTitleFlag.id === current.id ? (
