@@ -127,6 +127,7 @@ module.exports = {
       },
     ],
     '@typescript-eslint/no-explicit-any': ['error', { ignoreRestArgs: true }],
+    '@typescript-eslint/no-non-null-assertion': 'off',
     'prettier/prettier': [
       'error',
       {

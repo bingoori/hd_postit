@@ -14,19 +14,15 @@ export const chooseBoard = (id: number) => ({ type: CHOOSE_BOARD, payload: id })
 export const modifyBoard = (data: Board) => ({ type: MODIFY_BOARD, payload: data });
 export const removeBoard = (id: number) => ({ type: REMOVE_BOARD, payload: id });
 
-// 액션 객체 타입 설정
-// ReturnType --> 타입스크립트의 특정함수의 반환 타입을 추출해내는 제네릭 타입으로
-// 이를 통해 interface 중복작성을 피할 수 있다.
 type BoardAction =
   | ReturnType<typeof addBoard>
   | ReturnType<typeof getBoard>
   | ReturnType<typeof chooseBoard>
   | ReturnType<typeof modifyBoard>
   | ReturnType<typeof removeBoard>;
-//---- 리듀서에 전달 할 state에 대한 처리 ----
+
 export const initialState: Board[] = [];
-// ------------------------------------
-// Reducer
+
 export default function boardReducer(state: Board[] = initialState, action: BoardAction): Board[] {
   switch (action.type) {
     case ADD_BOARD: {

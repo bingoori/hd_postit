@@ -11,13 +11,15 @@ const BoardList = () => {
   }, [dispatch]);
   const boardList = useSelector((state: RootState) => state.boardReducer);
   return (
-    <Box sx={{ width: '20%', backgroundColor: 'lightgrey', p: 3, '.list': { fontWeight: 'bold' } }}>
+    <Box sx={{ width: '20%', minWidth: '214px', backgroundColor: 'lightgrey', p: 3, '.list': { fontWeight: 'bold' } }}>
       {boardList &&
         boardList.map((current, index) => (
           <Flex key={`board-${index}`}>
             <Box
-              sx={{ width: '100%', cursor: 'pointer', backgroundColor: current.isToggle ? 'grey' : '' }}
-              onClick={() => dispatch(chooseBoard(current.id))}
+              sx={{ width: '100%', minWidth: '160px', cursor: 'pointer', backgroundColor: current.isToggle ? 'grey' : '' }}
+              onClick={() => {
+                dispatch(chooseBoard(current.id));
+              }}
             >
               {current.text}
             </Box>
